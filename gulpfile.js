@@ -23,12 +23,13 @@ var src = {
   allJs: './src/**/*.js',
   allFont: './src/**/*.{ttf,woff,otf,eot}',
   allScss: './src/**/*.scss',
-  allImg: './src/**/*.{jpg,png,svg,gif,ico}'
+  allImg: './src/**/*.{jpg,png,svg,gif,ico}',
+  allData: './src/**/*.data'
 };
 
 // The default task is what runs when you type 'gulp' in the terminal
 gulp.task('default', ['clean'], function () {
-  return gulp.start('html', 'img', 'font', 'js:views', 'js:vendor', 'js', 'scss', 'watch', 'reload', 'serve');
+  return gulp.start('html', 'data', 'img', 'font', 'js:views', 'js:vendor', 'js', 'scss', 'watch', 'reload', 'serve');
 });
 
 // Serve is a name I made up. You could call it 'dostuff' or whatever.
@@ -58,11 +59,15 @@ gulp.task('watch', function () {
   watch(src.allScss, function () {
     gulp.start('scss');
   });
-  
+
   watch(src.allImg, function () {
     gulp.start('img');
   });
-  
+
+  watch(src.allData, function () {
+    gulp.start('data');
+  });
+
   watch(src.allFont, function () {
     gulp.start('font');
   });
@@ -150,6 +155,12 @@ gulp.task('html', function () {
 // Move any images to the dist folder
 gulp.task('img', function () {
   return gulp.src(src.allImg)
+    .pipe(gulp.dest('./dist'));
+});
+
+// Move any data to the dist folder
+gulp.task('data', function () {
+  return gulp.src(src.allData)
     .pipe(gulp.dest('./dist'));
 });
 
